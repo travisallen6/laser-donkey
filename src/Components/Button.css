@@ -1,7 +1,14 @@
 .Button {
-    width: 50px;
-    height: 50px;
-    display:flex;
+    width: 80px;
+    height: 80px;
+    display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 45px;
+    box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%,0.2);
+}
+
+.btnText{
+    font-size:2.3em;
+    opacity: 0.5;
 }

@@ -27,6 +27,7 @@ export default class Card extends Component {
         return(
             <div className='card-container'>
                 <div className='card-content'>
+                    {this.props.children}
                 </div>
             <div className='button-container'>
                 <Button 

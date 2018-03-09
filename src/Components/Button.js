@@ -4,12 +4,14 @@ import './Button.css'
 export default function Button(props){
     let buttonStyle={
         backgroundColor: props.btnColor,
+        color: 'white',
+        fontWeight:900,
     }
     return(
         <div className="Button"
                 style={buttonStyle} 
                 onClick={()=>props.btnFn()}>
-            <span class="btnText">{props.btnTxt}</span>
+            <span className="btnText">{props.btnTxt}</span>
         </div> 
     )
 }

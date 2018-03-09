@@ -8,13 +8,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Image 
-          imageSource={logo}
-          wide='80'
-          high='80'/>
-        
-        <h1>Poke Sight Words</h1>
-        <Card />
+        <div className="App-header">
+          <Image 
+            imageSource={logo}
+            wide='80'
+            high='80'/>
+          
+          <h1>Poke Sight Words</h1>
+        </div>
+        <Card>Sight Word</Card>
       </div>
     );
   }
