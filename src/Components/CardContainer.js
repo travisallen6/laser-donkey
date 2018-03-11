@@ -52,14 +52,14 @@ export default class CardContainer extends Component {
 
         // Adjust the index if this selection duplicates the last word
             if(masteredWordsCopy[i] === lastWord){
-                i === masteredWordsCopy.length ? i = 0 : i++
+                console.log(`Duplicate-before: i:${i} unMW.length:${masteredWordsCopy.length} word:${masteredWordsCopy[i]}`)
+                i === masteredWordsCopy.length-1 ? i = 0 : i++
+                console.log(`Duplicate-after: i:${i} unMW.length:${masteredWordsCopy.length} word:${masteredWordsCopy[i]}`)
             } 
         
         // Pull the new word off of the mastered array and set state with the modified values
             let newWord = masteredWordsCopy.splice(i,1)
-            console.log(masteredWordsCopy)
             newWord = newWord[0]
-            console.log(newWord)
 
             this.setState({
                 unMasteredWords: [...addToUnMastered],
@@ -80,14 +80,14 @@ export default class CardContainer extends Component {
     
             // Adjust the index if this selection duplicates the last word
                 if(unMasteredWordsCopy[i] === lastWord){
-                    i === unMasteredWordsCopy.length ? i = 0 : i++
+                    console.log(`Duplicate-before: i:${i} unMW.length:${unMasteredWordsCopy.length}word:${unMasteredWordsCopy[i]}`)
+                    i === unMasteredWordsCopy.length-1 ? i = 0 : i++
+                    console.log(`Duplicate-after: i:${i} unMW.length:${unMasteredWordsCopy.length}word:${unMasteredWordsCopy[i]}`)
                 } 
             
             // Pull the new word off of the mastered array and set state with the modified values
                 let newWord = unMasteredWordsCopy.splice(i,1)
-                console.log(unMasteredWordsCopy)
                 newWord = newWord[0]
-                console.log(newWord)
     
                 this.setState({
                     unMasteredWords: [...unMasteredWordsCopy],
@@ -105,7 +105,6 @@ export default class CardContainer extends Component {
     btnCorrect(){
         let wordAdjust = this.state.currentWord
         wordAdjust.hit++
-        console.log(wordAdjust)
         if(wordAdjust.hit > 1){
             this.setState({
                 lastWord: wordAdjust,
@@ -127,7 +126,6 @@ export default class CardContainer extends Component {
     btnIncorrect(){
         let wordAdjust = this.state.currentWord
         wordAdjust.miss++
-        console.log(wordAdjust)
         this.setState({
             lastWord: wordAdjust,
             unMasteredWords: [...this.state.unMasteredWords, wordAdjust[0]],
