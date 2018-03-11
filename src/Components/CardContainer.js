@@ -23,6 +23,7 @@ export default class CardContainer extends Component {
             currentWord: startWord[0],
             currentWordIndex: startIndex,
             lastWord: '',
+            finalWord: false
         }
         this.btnCorrect = this.btnCorrect.bind(this)
         this.btnIncorrect = this.btnIncorrect.bind(this)
@@ -88,13 +89,16 @@ export default class CardContainer extends Component {
             // Pull the new word off of the mastered array and set state with the modified values
                 let newWord = unMasteredWordsCopy.splice(i,1)
                 newWord = newWord[0]
+
+                let finalWord = unMasteredWordsCopy.length === 1 ? true : false;                
     
                 this.setState({
                     unMasteredWords: [...unMasteredWordsCopy],
                     masteredWords: [...addToMastered],
                     currentWord: newWord,
                     currentWordIndex: i,
-                    lastWord: currentWord
+                    lastWord: currentWord,
+                    finalWord: finalWord
                 })
     
             }
@@ -137,6 +141,8 @@ export default class CardContainer extends Component {
 
         
     render(){
+        let cardText = this.state.currentWord.word ? this.state.currentWord.word : 'All done!'
+
         let greenColor='#1cdb8b';
         let redColor='#e54b60';
         
@@ -144,7 +150,8 @@ export default class CardContainer extends Component {
         return(
             <div className='card-container'>
                 <Card 
-                    text={this.state.currentWord.word}
+                    text={cardText}
+                    // text={this.state.currentWord.word}
                 />
                 <div className='button-container'>
                     <Button 

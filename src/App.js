@@ -8,7 +8,7 @@ class App extends Component {
     //Objectify array data with a hit, miss, and streak count
 
   
-  render(){ 
+  render(){
     return (
       <div className="App">
         <div className="App-header">
