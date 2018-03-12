@@ -9,13 +9,15 @@ export default class CardContainer extends Component {
         super(props)
         
         this.state = {
-            masteryThreshold: 1, 
+            masteryThreshold: 3, 
             unMasteredWords: [],
             masteredWords: [],
             currentWord: '',
             lastWord: '',
-            finalWord: false,
+            isFinalWord: false,
+            finalWord: '',
             finalWordList: [],
+            finalWordIndex: 1,
             complete:false,
         }
         this.btnCorrect = this.btnCorrect.bind(this)
@@ -33,7 +35,7 @@ export default class CardContainer extends Component {
             this.setState({
                 unMasteredWords: objectArray,
                 currentWord: startWord[0],
-                finalWord: false
+                isFinalWord: false
             })
         } )
     }
@@ -99,16 +101,16 @@ export default class CardContainer extends Component {
                 let newWord = unMasteredWordsCopy.splice(i,1)
                 newWord = newWord[0]
 
-                let finalWord = unMasteredWordsCopy.length === 0;                
+                let isFinalWord = unMasteredWordsCopy.length === 0;                
     
                 this.setState({
                     unMasteredWords: [...unMasteredWordsCopy],
                     masteredWords: [...addToMastered],
                     currentWord: newWord,
                     lastWord: currentWord,
-                    finalWord: finalWord
+                    isFinalWord: isFinalWord
                 })
-                if(finalWord){
+                if(isFinalWord){
                     this.finalWordSetup(newWord)
 
                 }
@@ -116,82 +118,105 @@ export default class CardContainer extends Component {
     }
 
     finalWordSetup(newWord){
-        console.log('finalWordSetupFired')
-        let lastWordArray = [...this.state.masteredWords]
-        let selectedWords = []
+        var selectedArray =[]
+        let index
+        let lastIndex
 
-        for(let i=1; i<=4; i++){
-        let dice = Math.floor(Math.random() * lastWordArray.length)
-        let selection = lastWordArray.splice(dice,1)
-        selectedWords.push(selection[0])
+        for(let i=1; i<=50; i++){
+            let arrayCopy = [...this.state.masteredWords]
+            index = Math.floor(Math.random()*arrayCopy.length)
+            if(lastIndex===index){
+                index = index===arrayCopy.length-1?0:index+1
+            }
+            selectedArray.push(arrayCopy[index])
+            lastIndex=index
         }
         this.setState({
-            unMasteredWords: [...selectedWords, newWord],
-            lastWord: this.state.currentWord,
-            masteredWords:null,
+            finalWordList:selectedArray,
+            finalWord: newWord,
         })
     }
 
-    lastWordCycle(){
-        console.log('lastWordCycle fired')
-        let {unMasteredWords} = this.state
-        let wordArray = [...unMasteredWords]
-        let word = wordArray.shift()
-        console.log(word)
-        this.setState({
-            currentWord: word,
-            unMasteredWords: wordArray,
-        })
-
-    }
     
+
+    lastWordCycle(updatedWord){
+        let {finalWordIndex,finalWordList,finalWord} = this.state
+        console.log(finalWordIndex+"::"+finalWordList.length+"::"+(finalWordIndex >= finalWordList.length))
+        let index = finalWordIndex >= finalWordList.length ? 1 : finalWordIndex+1
+
+        let finalWordToDisplay = updatedWord.word === finalWord.word?updatedWord:finalWord
+        let wordToDisplay = index %5 === 0 ? finalWordToDisplay : finalWordList[index]
+
+        this.setState({
+            currentWord: wordToDisplay,
+            finalWord: finalWordToDisplay,
+            finalWordIndex: index,
+        })
+    }
+
         
     btnCorrect(){
-        let wordAdjust = this.state.currentWord
-        wordAdjust.hit++
-        if(this.state.finalWord === false){
-            if(wordAdjust.hit > this.state.masteryThreshold){
+        let {isFinalWord,currentWord,masteryThreshold,masteredWords,unMasteredWords, finalWord} = this.state
+
+        if(isFinalWord === false){
+            let wordAdjust = currentWord
+            wordAdjust.hit++
+            if(wordAdjust.hit > masteryThreshold){
                 this.setState({
                     lastWord: wordAdjust,
-                    masteredWords: [...this.state.masteredWords, wordAdjust],
+                    masteredWords: [...masteredWords, wordAdjust],
                     currentWord: '',
                 })
             } else {
                 this.setState({
                     lastWord: wordAdjust,
-                    unMasteredWords: [...this.state.unMasteredWords, wordAdjust],
+                    unMasteredWords: [...unMasteredWords, wordAdjust],
                     currentWord: '',
                 })
             }
             this.cycleWords();
-        } else {
-            // This runs when there is only one word left in the barrel
-            if(wordAdjust.hit >= this.state.masteryThreshold){
-                // celebrate()
-            } else if(this.state.unMasteredWords.length === 0){
-                this.finalWordSetup();
-                
-            } 
 
-            this.lastWordCycle();
+        } else {
+            let wordAdjust = currentWord
+            wordAdjust.hit++
+            if(finalWord.word === wordAdjust.word){
+                if(wordAdjust.hit >= masteryThreshold){
+                    this.setState({finalWord: wordAdjust, currentWord: wordAdjust})
+                    alert('Celebrate!')
+                    // Celebrate!
+                } else {
+                    this.lastWordCycle(wordAdjust)
+                } this.lastWordCycle(wordAdjust)
+            } else {
+                this.lastWordCycle(wordAdjust)
+            }
+            // This runs when there is only one word left in the barrel
+            
+
         }
 
     }
     
     
     btnIncorrect(){
-        let wordAdjust = this.state.currentWord
-        wordAdjust.miss++
-        if(this.state.finalWord === false){
-
+        if(this.state.isFinalWord === false){
+            
+            let wordAdjust = this.state.currentWord
+            wordAdjust.miss++
             this.setState({
                 lastWord: wordAdjust,
                 unMasteredWords: [...this.state.unMasteredWords, wordAdjust[0]],
                 currentWord: '',
             })
             this.cycleWords()
-        }
+        }else {
+            let wordAdjust = this.state.currentWord
+            wordAdjust.miss++
+            this.lastWordCycle(wordAdjust);
+        } 
+
     }
+    
 
         
     render(){
