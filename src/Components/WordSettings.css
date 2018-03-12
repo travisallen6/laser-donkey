@@ -1,0 +1,17 @@
+.wordsettings-container {
+    width:100vw;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    position:absolute;
+    opacity:20%;
+}
+
+.wordsettings-list-background {
+    Width: 70vw;
+    height:400px;
+    background-color:gray;
+    border-radius:50px;
+}

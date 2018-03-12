@@ -3,6 +3,8 @@ import './CardContainer.css'
 import Button from './Button'
 import Card from './Card'
 import axios from 'axios'
+import WordSettings from './WordSettings'
+
 
 export default class CardContainer extends Component {
     constructor(props){
@@ -24,7 +26,7 @@ export default class CardContainer extends Component {
         this.btnIncorrect = this.btnIncorrect.bind(this)
     }
     componentDidMount(){
-
+        
         let promise = axios.get('/api/words')
         promise.then( res => {
             let objectArray = []
@@ -44,33 +46,33 @@ export default class CardContainer extends Component {
     
     cycleWords(){
         let { unMasteredWords, masteredWords, currentWord, lastWord, masteryThreshold } = this.state
-
+        
         //Put the old word back where it belongs depending on if mastery was achieved or not
         let addToMastered = currentWord.hit >= masteryThreshold ? [...masteredWords, currentWord] : [...masteredWords];
         let addToUnMastered = currentWord.hit < masteryThreshold ? [...unMasteredWords, currentWord] : [...unMasteredWords];
-
+        
         // Pick the array of the next object and splice
         let dice = Math.floor(Math.random() * 5)
         let selectedArray =  dice < 3 || masteredWords.length < 5 ? 'unMastered' : 'mastered'  
-
-
+        
+        
         if(selectedArray === 'mastered'){
             console.log('Mastered')
-        // Pick random item in mastered array, select new item based on the random index
+            // Pick random item in mastered array, select new item based on the random index
             //### let i = Math.floor(Math.random() * masteredWords.length)
             let i = Math.floor(Math.random() *addToMastered.length)
-
+            
             //###let masteredWordsCopy = [...masteredWords]
             let masteredWordsCopy = [...addToMastered]
 
         // Adjust the index if this selection duplicates the last word
-            if(masteredWordsCopy[i] === lastWord){
+        if(masteredWordsCopy[i] === lastWord){
                 console.log(`Duplicate-before: i:${i} unMW.length:${masteredWordsCopy.length} word:${masteredWordsCopy[i]}`)
                 i === masteredWordsCopy.length-1 ? i = 0 : i++
                 console.log(`Duplicate-after: i:${i} unMW.length:${masteredWordsCopy.length} word:${masteredWordsCopy[i]}`)
             } 
         
-        // Pull the new word off of the mastered array and set state with the modified values
+            // Pull the new word off of the mastered array and set state with the modified values
             let newWord = masteredWordsCopy.splice(i,1)
             newWord = newWord[0]
 
@@ -86,23 +88,23 @@ export default class CardContainer extends Component {
         if(selectedArray === 'unMastered'){
             console.log('unMastered')
             // Pick random item in mastered array, select new item based on the random index
-                let i = Math.floor(Math.random() * addToUnMastered.length)
-    
+            let i = Math.floor(Math.random() * addToUnMastered.length)
+            
                 let unMasteredWordsCopy = [...addToUnMastered]
-    
+                
             // Adjust the index if this selection duplicates the last word
-                if(unMasteredWordsCopy[i] === lastWord){
+            if(unMasteredWordsCopy[i] === lastWord){
                     console.log(`Duplicate-before: i:${i} unMW.length:${unMasteredWordsCopy.length}word:${unMasteredWordsCopy[i]}`)
                     i === unMasteredWordsCopy.length-1 ? i = 0 : i++
                     console.log(`Duplicate-after: i:${i} unMW.length:${unMasteredWordsCopy.length}word:${unMasteredWordsCopy[i]}`)
                 } 
-            
+                
             // Pull the new word off of the mastered array and set state with the modified values
                 let newWord = unMasteredWordsCopy.splice(i,1)
                 newWord = newWord[0]
 
                 let isFinalWord = unMasteredWordsCopy.length === 0;                
-    
+                
                 this.setState({
                     unMasteredWords: [...unMasteredWordsCopy],
                     masteredWords: [...addToMastered],
@@ -114,14 +116,14 @@ export default class CardContainer extends Component {
                     this.finalWordSetup(newWord)
 
                 }
-        }
+            }
     }
-
+    
     finalWordSetup(newWord){
         var selectedArray =[]
         let index
         let lastIndex
-
+        
         for(let i=1; i<=50; i++){
             let arrayCopy = [...this.state.masteredWords]
             index = Math.floor(Math.random()*arrayCopy.length)
@@ -136,17 +138,17 @@ export default class CardContainer extends Component {
             finalWord: newWord,
         })
     }
-
     
-
+    
+    
     lastWordCycle(updatedWord){
         let {finalWordIndex,finalWordList,finalWord} = this.state
         console.log(finalWordIndex+"::"+finalWordList.length+"::"+(finalWordIndex >= finalWordList.length))
         let index = finalWordIndex >= finalWordList.length ? 1 : finalWordIndex+1
-
+        
         let finalWordToDisplay = updatedWord.word === finalWord.word?updatedWord:finalWord
         let wordToDisplay = index %5 === 0 ? finalWordToDisplay : finalWordList[index]
-
+        
         this.setState({
             currentWord: wordToDisplay,
             finalWord: finalWordToDisplay,
@@ -154,7 +156,7 @@ export default class CardContainer extends Component {
         })
     }
 
-        
+    
     btnCorrect(){
         let {isFinalWord,currentWord,masteryThreshold,masteredWords,unMasteredWords, finalWord} = this.state
 
@@ -217,23 +219,24 @@ export default class CardContainer extends Component {
 
     }
     
-
+    
         
     render(){
-        let cardText = this.state.currentWord.word ? this.state.currentWord.word : 'All done!'
-
+        let cardText = this.state.currentWord.word
         let greenColor='#1cdb8b';
         let redColor='#e54b60';
         
-            
+        
         return(
             <div className='card-container'>
+                <WordSettings />
+                
                 <Card 
                     text={cardText}
                     // text={this.state.currentWord.word}
                 />
                 <div className='button-container'>
-                    <Button 
+                   <Button 
                         btnColor={greenColor}
                         btnFn={this.btnCorrect} 
                         btnTxt='&#10004;'
