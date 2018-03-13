@@ -2,16 +2,16 @@
     width:100vw;
     height:100vh;
     display:flex;
-    flex-direction:column;
-    justify-content:center;
+    justify-content:space-evenly;
     align-items:center;
     position:absolute;
-    opacity:20%;
 }
 
 .wordsettings-list-background {
-    Width: 70vw;
-    height:400px;
+    Width: 60vw;
     background-color:gray;
     border-radius:50px;
+    min-height: 20vh;
+    display:flex;
+    justify-content:space-evenly;
 }

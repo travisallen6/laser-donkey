@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
 import './CardContainer.css'
 import Button from './Button'
+import './Button.css'
 import Card from './Card'
 import axios from 'axios'
 import WordSettings from './WordSettings'
+import Pokemon from './Pokemon'
 
 
 export default class CardContainer extends Component {
@@ -21,27 +23,29 @@ export default class CardContainer extends Component {
             finalWordList: [],
             finalWordIndex: 1,
             complete:false,
+            wordSettings:false,
         }
         this.btnCorrect = this.btnCorrect.bind(this)
         this.btnIncorrect = this.btnIncorrect.bind(this)
     }
+    
+    
     componentDidMount(){
-        
-        let promise = axios.get('/api/words')
+        let promise = axios.get('/api/')
         promise.then( res => {
             let objectArray = []
             res.data.map( val => objectArray.push({word: val,hit: 0, miss:0}))
             let startIndex = Math.floor(Math.random() * objectArray.length)
             let startWord = objectArray.splice(startIndex,1)
-            
+            startWord = startWord[0]
+
             this.setState({
                 unMasteredWords: objectArray,
-                currentWord: startWord[0],
-                isFinalWord: false
+                currentWord: startWord,
             })
-        } )
+        })
     }
-    
+
     
     
     cycleWords(){
@@ -184,7 +188,7 @@ export default class CardContainer extends Component {
             if(finalWord.word === wordAdjust.word){
                 if(wordAdjust.hit >= masteryThreshold){
                     this.setState({finalWord: wordAdjust, currentWord: wordAdjust})
-                    alert('Celebrate!')
+                    alert('Woohoo!')
                     // Celebrate!
                 } else {
                     this.lastWordCycle(wordAdjust)
@@ -218,6 +222,7 @@ export default class CardContainer extends Component {
         } 
 
     }
+
     
     
         
@@ -225,23 +230,29 @@ export default class CardContainer extends Component {
         let cardText = this.state.currentWord.word
         let greenColor='#1cdb8b';
         let redColor='#e54b60';
-        
+        let wordSettingsToggle = this.state.wordSettings ? {display: 'flex'} : {display: 'none'}
+        let allWordsArray = [...this.state.currentWord,...this.state.masteredWords,...this.state.unMasteredWords]
         
         return(
             <div className='card-container'>
-                <WordSettings />
-                
+                <WordSettings 
+                    wordsSetFn={this.setWords}
+                    allWordsList={allWordsArray}    
+                />
+                <Pokemon />
                 <Card 
                     text={cardText}
                     // text={this.state.currentWord.word}
                 />
                 <div className='button-container'>
-                   <Button 
+                   <Button
+                        className='Button Button-round'  
                         btnColor={greenColor}
                         btnFn={this.btnCorrect} 
                         btnTxt='&#10004;'
                     />
-                    <Button 
+                    <Button
+                        className='Button Button-round'
                         btnColor={redColor}
                         btnFn={this.btnIncorrect} 
                         btnTxt='&#10008;'

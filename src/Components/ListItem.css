@@ -1,0 +1,43 @@
+.ListItem-container {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+}
+
+.crud-btn{
+    width: 60px;
+    height: 30px;
+    margin: 0 10px;
+}
+
+.edit{
+    background-color:blue;
+}
+
+.crud-btn-delete{
+    background-color:red;
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 15px;
+    font-size: 0.7em;
+    text-align: center;
+}
+
+.crud-edit-box {
+    display:flex;
+    align-items: center;
+}
+.crud-title {
+    width: 100px;
+    text-align: left;
+}
+
+.crud-input {
+    width: 100px;
+}

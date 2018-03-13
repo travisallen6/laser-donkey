@@ -1,7 +1,7 @@
 import React from 'react'
 import './Button.css'
 
-export default function Button(props){
+export default function ButtonCrud(props){
     let buttonStyle={
         backgroundColor: props.btnColor,
         color: 'white',

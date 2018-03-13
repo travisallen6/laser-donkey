@@ -5,14 +5,16 @@ const ctrl = require('./controller')
 
 const app=express();
 
+const port = 3010;
 
 app.use(bodyParser.json())
 
-const port = 3010;
 
-app.get('/api/words', ctrl.wordsList)
+app.get('/api/', ctrl.getWords)
 
-app.post('./api/addwords', ctrl.addWords)
+app.post('/api/', ctrl.addWords)
+
+app.put('/api/:oldWord/', ctrl.updateWords)
 
 
 

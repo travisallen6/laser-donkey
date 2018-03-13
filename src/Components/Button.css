@@ -1,11 +1,20 @@
 .Button {
-    width: 80px;
-    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 45px;
     box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%,0.2);
+}
+
+.Button-round{
+    width: 80px;
+    height: 80px;
+    border-radius: 45px;
+}
+
+.Button-crud {
+    width: 40px;
+    height: 10px;
+    border-radius: 5px;
 }
 
 .btnText{
