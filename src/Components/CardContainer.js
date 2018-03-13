@@ -24,11 +24,13 @@ export default class CardContainer extends Component {
             finalWordList: [],
             finalWordIndex: 1,
             complete:false,
-            wordSettings:true,
+            wordSettings:false,
         }
         this.btnCorrect = this.btnCorrect.bind(this)
         this.btnIncorrect = this.btnIncorrect.bind(this)
         this.setWords = this.setWords.bind(this)
+        this.editWordsAxios = this.editWordsAxios.bind(this)
+        this.toggleWordSettings=this.toggleWordSettings.bind(this)
     }
     
     prepWordsForGame(array){
@@ -251,15 +253,25 @@ export default class CardContainer extends Component {
             finalWordIndex: 1,
             complete:false,
         })
+        this.toggleWordSettings=this.toggleWordSettings.bind(this)
     }
 
     editWordsAxios(oldWord,newWord){
-        let promise=axios.put(`/api/${oldWord}`,{newWord})
+        let changedWord = {word: newWord}
+        let promise=axios.put(`/api/${oldWord}`,changedWord)
         promise.then( res => {
             let updatedArray=res.data;
-            let prepArray=this.prepWordsForGame(updatedArray)
-        })
+            this.setWords(updatedArray)
 
+            })
+        }
+
+    toggleWordSettings(){
+        console.log(this.state)
+        let toggle = !this.state.wordSettings
+        this.setState({
+            wordSettings: toggle
+        })
     }
 
     
@@ -269,14 +281,15 @@ export default class CardContainer extends Component {
         let cardText = this.state.currentWord.word
         let greenColor='#1cdb8b';
         let redColor='#e54b60';
-        let wordSettingsToggle = this.state.wordSettings ? {display: 'flex'} : {display: 'none'}
+        console.log(this.state.wordSettings)
         
         return(
             <div className='card-container'>
                 {this.state.wordSettings && <WordSettings 
                     setWordsCb={this.setWords}
                     rawWordsList={this.state.rawWordList}
-                    editWordsAxios={this.editWordsAxios}    
+                    editWordsAxios={this.editWordsAxios}
+                    toggleWordSettings={this.toggleWordSettings}    
                 />}
                 <Pokemon />
                 <Card 

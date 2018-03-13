@@ -12,9 +12,10 @@ export default class WordSettings extends Component {
 
         }
         this.refreshWords = this.refreshWords.bind(this)
+        this.editItem = this.editItem.bind(this)
+        this.toggleWordSettings=this.toggleWordSettings.bind(this)
     }
     
-
     refreshWords(){
         let setArray = [...this.props.allWordsList]
         this.setState({
@@ -28,21 +29,17 @@ export default class WordSettings extends Component {
 
 
     addNewWord(word){
-        let promise=axios.post('/api',{word})
-        promise.then( (res)=>{
-            console.log('response:'+ res)
-            let updatedArray = res.data
-            this.setState({
-                addWordInput: ''
-            })
-            this.props.setWordsCb(updatedArray)
-        })
+        
     }
 
     editItem(oldWord,newWord){
         this.props.editWordsAxios(oldWord, newWord)
+      
     }
 
+    toggleWordSettings(){
+        this.props.toggleWordSettings()
+    }
 
 
 
@@ -66,9 +63,26 @@ export default class WordSettings extends Component {
             <div style={this.props.display} 
                 className='wordsettings-container'>
                 <div className='wordsettings-list'>
+                    <div className='wordsettings-create-word'>
+                        <div><h2>Add a Word</h2></div>
+                        <div className='wordsettings-add-input-group'>
+                            <input 
+                                value={this.state.addWordInput}
+                                onChange={(e)=>this.handleAddWordInput(e.target.value)}
+                                />
+                            <div className='wordsettings-addWord-btn'>Add</div>
+                        </div>
+                    </div>
                     <div className='current-words'>
                         <h2>Current Words</h2>
                         {wordDisplay}
+                        <div className='wordsettings-close-btn-container'>
+                            <div 
+                                className='wordsettings-close-btn'
+                                onClick={ ()=>this.toggleWordSettings() }>
+                                Close
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

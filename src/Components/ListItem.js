@@ -5,34 +5,40 @@ export default class ListItem extends Component {
         constructor(props){
                 super(props)
                 this.state = {
-                        editInput: '',
-                        toggleEditBox
+                        editInput: this.props.word,
                 }
         }
 
-        editItem(oldWordValue){
+        editItem(){
                 let editedWord = this.state.editInput
-                this.props.editCb(oldWordValue,editedWord)
+                this.props.editCb(this.props.word,editedWord)
         }
 
-        toggleEditBox(){
+        handleInput(value){
                 this.setState({
-                        // toggleEditBox
+                        editInput:value
                 })
         }
+
 
         render(){
 
         return(
         <div className='ListItem-container'>
-                <div className='crud-title' >
-                        {this.props.word}
+                <div className="crud-title-edit">
+                        <input 
+                                type="text" 
+                                value={this.state.editInput} 
+                                className="edit-input"
+                                onChange={(e)=>this.handleInput(e.target.value)}
+                        />
                 </div>
                 <div className='crud-btn-container'>
                         <div 
-                                className='crud-btn crud-edit'
-                                onClick={()=>this.editItem(this.props.word)}
-                        >edit</div>
+                                className="crud-btn crud-edit"  
+                                onClick={()=>this.editItem(this.props.word)}>
+                                edit
+                        </div>
                         <div
                                 className='crud-btn crud-delete'
                                 onClick={()=>this.deleteItem(this.props.word)}
