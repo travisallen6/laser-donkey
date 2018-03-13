@@ -13,7 +13,8 @@ export default class CardContainer extends Component {
         super(props)
         
         this.state = {
-            masteryThreshold: 3, 
+            masteryThreshold: 3,
+            rawWordList: [], 
             unMasteredWords: [],
             masteredWords: [],
             currentWord: '',
@@ -27,23 +28,35 @@ export default class CardContainer extends Component {
         }
         this.btnCorrect = this.btnCorrect.bind(this)
         this.btnIncorrect = this.btnIncorrect.bind(this)
+        this.setWords = this.setWords.bind(this)
     }
     
+    prepWordsForGame(array){
+        let objectArray = []
+        array.map( val => objectArray.push({word: val,hit: 0, miss:0}))
+        return objectArray;
+    }
+    
+    getStartingWord(array){
+        let startIndex = Math.floor(Math.random() * array.length)
+        let startWord = array.splice(startIndex,1)
+        startWord = startWord[0]
+        return startWord
+    }
     
     componentDidMount(){
-        let promise = axios.get('/api/')
-        promise.then( res => {
-            let objectArray = []
-            res.data.map( val => objectArray.push({word: val,hit: 0, miss:0}))
-            let startIndex = Math.floor(Math.random() * objectArray.length)
-            let startWord = objectArray.splice(startIndex,1)
-            startWord = startWord[0]
+            let promise = axios.get('/api/')
+            promise.then( res => {
+                let rawWordList = res.data
+                let prepWordList = this.prepWordsForGame(rawWordList)
+                let firstWord = this.getStartingWord(prepWordList)
 
-            this.setState({
-                unMasteredWords: objectArray,
-                currentWord: startWord,
+                this.setState({
+                    unMasteredWords: prepWordList,
+                    currentWord: firstWord,
+                    rawWordList: rawWordList
+                })
             })
-        })
     }
 
     
@@ -223,6 +236,20 @@ export default class CardContainer extends Component {
 
     }
 
+    setWords(updatedArray, word){
+        this.setState({
+            unMasteredWords: updatedArray,
+            masteredWords: [],
+            currentWord: updatedArray[0],
+            lastWord: '',
+            isFinalWord: false,
+            finalWord: '',
+            finalWordList: [],
+            finalWordIndex: 1,
+            complete:false,
+        })
+    }
+
     
     
         
@@ -235,10 +262,10 @@ export default class CardContainer extends Component {
         
         return(
             <div className='card-container'>
-                <WordSettings 
+                {this.state.wordSettings && <WordSettings 
                     wordsSetFn={this.setWords}
                     allWordsList={allWordsArray}    
-                />
+                />}
                 <Pokemon />
                 <Card 
                     text={cardText}

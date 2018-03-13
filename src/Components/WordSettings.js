@@ -7,7 +7,7 @@ export default class WordSettings extends Component {
     constructor(props){
         super(props)
         this.state = {
-            addWordUserInput: '',
+            addWordInput: '',
             wordList: ''
 
         }
@@ -17,21 +17,28 @@ export default class WordSettings extends Component {
 
     refreshWords(){
         let setArray = [...this.props.allWordsList]
-        console.log(setArray)
         this.setState({
             wordList: setArray
         }) 
-    }    
-
-    updateInput(updatedArray){
-        this.setState({wordList: updatedArray})
+    }
+    
+    handleAddWordInput(value){
+        this.setState({addWordInput: value})
     }
 
-    addNewWord(input){
-        let newArray = [...this.state.wordList, input]
-        this.setState({wordList: newArray})
 
-
+    addNewWord(word){
+        let promise=axios.post('/api',{word})
+        promise.then( (res)=>{
+            console.log('response:'+ res)
+            let updatedArray = res.data
+            let firstWord = res.data[0]
+            this.setState({
+                wordList: updatedArray,
+                addWordInput: ''
+            })
+            this.props.wordsSetFn(updatedArray, firstWord)
+        })
     }
 
     editItem(oldWord,newWord){
@@ -50,14 +57,13 @@ export default class WordSettings extends Component {
 
     render(){
 
-        let wordDisplay = this.state.wordList ? (this.state.wordList.map( (val, i) => <ListItem key={i} element={val}  />)):'';
-        console.log(this.state)
+        let wordDisplay = this.props.allWordsList.map( (val, i) => <h2 key={i}> {val.word} </h2>);
 
         return (
             <div style={this.props.display} className='wordsettings-container'>
                 <div className='wordsettings-list-background'>
                     <div>
-                        <h1>Add a Word</h1><input value={this.state.addWordUserInput} onChange={(e) => this.updateAddWordInput(e.target.value)} /><button onClick={this.addNewWord}>Add</button>
+                        <h1>Add a Word</h1><input value={this.state.addWordInput} onChange={(e) => this.handleAddWordInput(e.target.value)} /><button onClick={()=>this.addNewWord(this.state.addWordInput)}>Add</button>
                     </div>
                     <div>
                         <div className="current-words">

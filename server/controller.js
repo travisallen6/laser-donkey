@@ -7,8 +7,8 @@ module.exports = {
         res.status(200).send(words)
     },
     addWords: (req, res) => {
-        console.log('addWords')
         let {word}=req.body
+        console.log(req.body)
         if(words.indexOf(word) < 0){
             words.push(word)
         }
