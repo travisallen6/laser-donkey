@@ -77,12 +77,12 @@ export default class WordSettings extends Component {
                         <h2>Current Words</h2>
                         {wordDisplay}
                         <div className='wordsettings-close-btn-container'>
+                        </div>
                             <div 
                                 className='wordsettings-close-btn'
                                 onClick={ ()=>this.toggleWordSettings() }>
                                 Close
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

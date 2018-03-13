@@ -6,6 +6,7 @@ import Card from './Card'
 import axios from 'axios'
 import WordSettings from './WordSettings'
 import Pokemon from './Pokemon'
+import settingsIcon from '../images/settings-gear.png'
 
 
 export default class CardContainer extends Component {
@@ -292,23 +293,28 @@ export default class CardContainer extends Component {
                     toggleWordSettings={this.toggleWordSettings}    
                 />}
                 <Pokemon />
-                <Card 
-                    text={cardText}
-                    // text={this.state.currentWord.word}
-                />
+                    <Card 
+                        text={cardText}
+                        // text={this.state.currentWord.word}
+                        />
                 <div className='button-container'>
-                   <Button
-                        className='Button Button-round'  
-                        btnColor={greenColor}
-                        btnFn={this.btnCorrect} 
-                        btnTxt='&#10004;'
-                    />
                     <Button
-                        className='Button Button-round'
-                        btnColor={redColor}
-                        btnFn={this.btnIncorrect} 
-                        btnTxt='&#10008;'
-                    />
+                            className='Button Button-round'  
+                            btnColor={greenColor}
+                            btnFn={this.btnCorrect} 
+                            btnTxt='&#10004;'
+                            />
+                        <Button
+                            className='Button Button-round'
+                            btnColor={redColor}
+                            btnFn={this.btnIncorrect} 
+                            btnTxt='&#10008;'
+                            />
+                </div>
+                <div 
+                    className='btn-settings'
+                    onClick={()=>this.toggleWordSettings()}>
+                <img src={settingsIcon} alt=''/>
                 </div>
             </div>
         )

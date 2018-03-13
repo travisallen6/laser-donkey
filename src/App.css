@@ -1,7 +1,9 @@
 h1 {
   margin:0
 }
-
+body {
+  background-color: #F0F3F7;
+}
 .App {
   text-align: center;
   background-color: #F0F3F7;
