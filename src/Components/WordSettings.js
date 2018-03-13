@@ -32,23 +32,15 @@ export default class WordSettings extends Component {
         promise.then( (res)=>{
             console.log('response:'+ res)
             let updatedArray = res.data
-            let firstWord = res.data[0]
             this.setState({
-                wordList: updatedArray,
                 addWordInput: ''
             })
-            this.props.wordsSetFn(updatedArray, firstWord)
+            this.props.setWordsCb(updatedArray)
         })
     }
 
     editItem(oldWord,newWord){
-        let promise = axios.put(`/api/${oldWord}`, {word: newWord})
-        promise.then( (res) => {
-            this.props.updateFn(res.data) 
-            this.setState({
-                word:newWord
-            })
-        })
+        this.props.editWordsAxios(oldWord, newWord)
     }
 
 
@@ -57,20 +49,26 @@ export default class WordSettings extends Component {
 
     render(){
 
-        let wordDisplay = this.props.allWordsList.map( (val, i) => <h2 key={i}> {val.word} </h2>);
+    let wordDisplay = this.props.rawWordsList.map( (val, i) => {
+        return(
+            <ListItem 
+                key={i} 
+                word={val}
+                editCb={this.editItem}
+                deleteCb={this.deleteItem}
+             />
+        )
+    })
+    
+
 
         return (
-            <div style={this.props.display} className='wordsettings-container'>
-                <div className='wordsettings-list-background'>
-                    <div>
-                        <h1>Add a Word</h1><input value={this.state.addWordInput} onChange={(e) => this.handleAddWordInput(e.target.value)} /><button onClick={()=>this.addNewWord(this.state.addWordInput)}>Add</button>
-                    </div>
-                    <div>
-                        <div className="current-words">
-                            <h2>Current Words</h2>
-                            <button onClick={this.refreshWords}>Refresh</button>
-                            {wordDisplay}
-                        </div>
+            <div style={this.props.display} 
+                className='wordsettings-container'>
+                <div className='wordsettings-list'>
+                    <div className='current-words'>
+                        <h2>Current Words</h2>
+                        {wordDisplay}
                     </div>
                 </div>
             </div>

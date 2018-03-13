@@ -6,6 +6,7 @@ module.exports = {
         console.log('getwords')
         res.status(200).send(words)
     },
+
     addWords: (req, res) => {
         let {word}=req.body
         console.log(req.body)
@@ -14,6 +15,7 @@ module.exports = {
         }
         res.status(200).send(words)
     },
+    
     updateWords: (req,res) => {
         console.log('editWords')
         for(let i=0; i<words.length; i++){

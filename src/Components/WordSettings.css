@@ -2,16 +2,29 @@
     width:100vw;
     height:100vh;
     display:flex;
-    justify-content:space-evenly;
+    justify-content:center;
     align-items:center;
     position:absolute;
 }
 
-.wordsettings-list-background {
+.wordsettings-list {
     Width: 60vw;
     background-color:gray;
     border-radius:50px;
     min-height: 20vh;
     display:flex;
-    justify-content:space-evenly;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    
+}
+
+.current-words {
+    display:flex;
+    flex-direction:column;
+    background-color:white;
+    width: 350px;
+    margin:20px;
+    border-radius:25px;
+    padding-bottom: 20px;
 }
