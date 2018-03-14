@@ -26,7 +26,20 @@ module.exports = {
         console.log(words)
         res.status(200).send(words)
 
-    }
+    },
+    
+    deleteWord: (req,res) => {
+        console.log('deleteWords')
+        for(let i=0; i<words.length; i++){
+            if(words[i]===req.params.wordToDelete){
+                words.splice(i,1)
+            }
+        }
+        console.log(words)
+        res.status(200).send(words)
+
+    },
+
 
     // find the word based on the word in the body
 }

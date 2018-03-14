@@ -20,6 +20,9 @@ export default class ListItem extends Component {
                 })
         }
 
+        deleteItem(wordToDelete){
+                this.props.deleteCb(wordToDelete)
+        }
 
         render(){
 

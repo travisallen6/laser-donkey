@@ -31,6 +31,7 @@ export default class CardContainer extends Component {
         this.btnIncorrect = this.btnIncorrect.bind(this)
         this.setWords = this.setWords.bind(this)
         this.editWordsAxios = this.editWordsAxios.bind(this)
+        this.deleteWordAxios = this.deleteWordAxios.bind(this)
         this.toggleWordSettings=this.toggleWordSettings.bind(this)
     }
     
@@ -48,21 +49,19 @@ export default class CardContainer extends Component {
     }
     
     componentDidMount(){
-            let promise = axios.get('/api/')
-            promise.then( res => {
-                let rawWordList = res.data
-                let prepWordList = this.prepWordsForGame(rawWordList)
-                let firstWord = this.getStartingWord(prepWordList)
+        let promise = axios.get('/api/')
+        promise.then( res => {
+            let rawWordList = res.data
+            let prepWordList = this.prepWordsForGame(rawWordList)
+            let firstWord = this.getStartingWord(prepWordList)
 
-                this.setState({
-                    unMasteredWords: prepWordList,
-                    currentWord: firstWord,
-                    rawWordList: rawWordList
-                })
+            this.setState({
+                unMasteredWords: prepWordList,
+                currentWord: firstWord,
+                rawWordList: rawWordList
             })
+        })
     }
-
-    
     
     cycleWords(){
         let { unMasteredWords, masteredWords, currentWord, lastWord, masteryThreshold } = this.state
@@ -159,8 +158,6 @@ export default class CardContainer extends Component {
         })
     }
     
-    
-    
     lastWordCycle(updatedWord){
         let {finalWordIndex,finalWordList,finalWord} = this.state
         console.log(finalWordIndex+"::"+finalWordList.length+"::"+(finalWordIndex >= finalWordList.length))
@@ -176,7 +173,6 @@ export default class CardContainer extends Component {
         })
     }
 
-    
     btnCorrect(){
         let {isFinalWord,currentWord,masteryThreshold,masteredWords,unMasteredWords, finalWord} = this.state
 
@@ -218,8 +214,7 @@ export default class CardContainer extends Component {
         }
 
     }
-    
-    
+
     btnIncorrect(){
         if(this.state.isFinalWord === false){
             
@@ -253,6 +248,7 @@ export default class CardContainer extends Component {
             finalWordList: [],
             finalWordIndex: 1,
             complete:false,
+            rawWordList:updatedArray
         })
         this.toggleWordSettings=this.toggleWordSettings.bind(this)
     }
@@ -264,8 +260,17 @@ export default class CardContainer extends Component {
             let updatedArray=res.data;
             this.setWords(updatedArray)
 
-            })
-        }
+        })
+    }
+
+    deleteWordAxios(wordToDelete){
+        console.log(wordToDelete)
+        axios.delete(`/api/${wordToDelete}`)
+        .then( res => {
+            let updatedArray=res.data;
+            this.setWords(updatedArray)
+        })
+    }
 
     toggleWordSettings(){
         console.log(this.state)
@@ -274,9 +279,6 @@ export default class CardContainer extends Component {
             wordSettings: toggle
         })
     }
-
-    
-    
         
     render(){
         let cardText = this.state.currentWord.word
@@ -290,6 +292,7 @@ export default class CardContainer extends Component {
                     setWordsCb={this.setWords}
                     rawWordsList={this.state.rawWordList}
                     editWordsAxios={this.editWordsAxios}
+                    deleteWordAxios={this.deleteWordAxios}
                     toggleWordSettings={this.toggleWordSettings}    
                 />}
                 <Pokemon />

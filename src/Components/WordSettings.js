@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import './WordSettings.css'
-import axios from 'axios'
 import ListItem from './ListItem'
 
 export default class WordSettings extends Component {
@@ -14,6 +13,7 @@ export default class WordSettings extends Component {
         this.refreshWords = this.refreshWords.bind(this)
         this.editItem = this.editItem.bind(this)
         this.toggleWordSettings=this.toggleWordSettings.bind(this)
+        this.deleteItem=this.deleteItem.bind(this)
     }
     
     refreshWords(){
@@ -41,6 +41,9 @@ export default class WordSettings extends Component {
         this.props.toggleWordSettings()
     }
 
+    deleteItem(wordToDelete){
+        this.props.deleteWordAxios(wordToDelete)
+    }
 
 
 
