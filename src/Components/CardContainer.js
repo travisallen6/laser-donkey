@@ -30,6 +30,7 @@ export default class CardContainer extends Component {
         this.btnCorrect = this.btnCorrect.bind(this)
         this.btnIncorrect = this.btnIncorrect.bind(this)
         this.setWords = this.setWords.bind(this)
+        this.addWordAxios=this.addWordAxios.bind(this)
         this.editWordsAxios = this.editWordsAxios.bind(this)
         this.deleteWordAxios = this.deleteWordAxios.bind(this)
         this.toggleWordSettings=this.toggleWordSettings.bind(this)
@@ -253,6 +254,14 @@ export default class CardContainer extends Component {
         this.toggleWordSettings=this.toggleWordSettings.bind(this)
     }
 
+    addWordAxios(newWord){
+        let promise=axios.post(`/api/${newWord}`)
+        promise.then( res => {
+            let updatedArray=res.data;
+            this.setWords(updatedArray)
+
+        })
+    }
     editWordsAxios(oldWord,newWord){
         let changedWord = {word: newWord}
         let promise=axios.put(`/api/${oldWord}`,changedWord)
@@ -291,6 +300,7 @@ export default class CardContainer extends Component {
                 {this.state.wordSettings && <WordSettings 
                     setWordsCb={this.setWords}
                     rawWordsList={this.state.rawWordList}
+                    addWordAxios={this.addWordAxios}
                     editWordsAxios={this.editWordsAxios}
                     deleteWordAxios={this.deleteWordAxios}
                     toggleWordSettings={this.toggleWordSettings}    

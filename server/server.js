@@ -12,9 +12,11 @@ app.use(bodyParser.json())
 
 app.get('/api/', ctrl.getWords)
 
-app.post('/api/', ctrl.addWords)
+app.post('/api/:wordToAdd', ctrl.addWord)
 
 app.put('/api/:oldWord/', ctrl.updateWords)
+
+app.delete('/api/:wordToDelete/', ctrl.deleteWord)
 
 
 

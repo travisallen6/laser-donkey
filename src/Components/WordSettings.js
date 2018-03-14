@@ -45,7 +45,12 @@ export default class WordSettings extends Component {
         this.props.deleteWordAxios(wordToDelete)
     }
 
-
+    addItem(){
+        this.props.addWordAxios(this.state.addWordInput)
+        this.setState({
+            addWordInput: ''
+        })
+    }
 
     render(){
 
@@ -73,7 +78,10 @@ export default class WordSettings extends Component {
                                 value={this.state.addWordInput}
                                 onChange={(e)=>this.handleAddWordInput(e.target.value)}
                                 />
-                            <div className='wordsettings-addWord-btn'>+</div>
+                            <div className='wordsettings-addWord-btn'
+                                onClick={()=>this.addItem(this.state.addWordInput)}>
+                                +
+                            </div>
                         </div>
                     </div>
                     <div className='current-words'>

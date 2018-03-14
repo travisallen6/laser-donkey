@@ -7,11 +7,10 @@ module.exports = {
         res.status(200).send(words)
     },
 
-    addWords: (req, res) => {
-        let {word}=req.body
-        console.log(req.body)
-        if(words.indexOf(word) < 0){
-            words.push(word)
+    addWord: (req, res) => {
+        console.log(req.params.wordToAdd)
+        if(words.indexOf(req.params.wordToAdd) < 0){
+            words.push(req.params.wordToAdd)
         }
         res.status(200).send(words)
     },
