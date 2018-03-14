@@ -52,7 +52,7 @@ export default class WordSettings extends Component {
     let wordDisplay = this.props.rawWordsList.map( (val, i) => {
         return(
             <ListItem 
-                key={i} 
+                key={i+val} 
                 word={val}
                 editCb={this.editItem}
                 deleteCb={this.deleteItem}

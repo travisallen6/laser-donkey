@@ -16,7 +16,8 @@ app.post('/api/', ctrl.addWords)
 
 app.put('/api/:oldWord/', ctrl.updateWords)
 
-app.delete('/api/:wordToDelete/', ctrl.deleteWord)
+
+
 
 
 app.listen(port, () => console.log(`hard to port ${port}`))
