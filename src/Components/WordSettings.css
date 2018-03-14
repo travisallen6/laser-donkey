@@ -1,6 +1,5 @@
 .wordsettings-container {
     width:100vw;
-    height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -13,9 +12,9 @@
     min-height: 20vh;
     display:flex;
     flex-direction:column;
-    justify-content:center;
+    justify-content:space-evenly;
     align-items:center;
-    
+    padding:10px;
 }
 
 .current-words {
@@ -23,9 +22,9 @@
     flex-direction:column;
     background-color:white;
     width: 350px;
-    margin:20px;
     border-radius:25px;
     padding-bottom: 20px;
+    margin: 10px 0;
 }
 
 .wordsettings-create-word {
@@ -42,7 +41,16 @@
 
 .wordsettings-add-input-group{
     display:flex;
+}
 
+.wordsettings-addWord-btn{
+    width:25px;
+    border-radius:5px;
+    background-color:green;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    margin-left:10px;
 }
 
 .wordsettings-close-btn {
@@ -60,9 +68,11 @@
 
 .wordsettings-close-btn-container{
     display:flex;
-    position:absolute;
-    bottom:10;
     justify-content:center;
-    align-items:flex-start;
-    height:60px;
+    align-items:center;
+}
+
+.wordsettings-list-row{
+    display:flex;
+    align-items:center;
 }

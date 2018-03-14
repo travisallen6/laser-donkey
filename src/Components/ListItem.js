@@ -25,7 +25,7 @@ export default class ListItem extends Component {
 
         return(
         <div className='ListItem-container'>
-                <div className="crud-title-edit">
+                <div className="crud-title">
                         <input 
                                 type="text" 
                                 value={this.state.editInput} 

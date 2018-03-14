@@ -70,21 +70,21 @@ export default class WordSettings extends Component {
                                 value={this.state.addWordInput}
                                 onChange={(e)=>this.handleAddWordInput(e.target.value)}
                                 />
-                            <div className='wordsettings-addWord-btn'>Add</div>
+                            <div className='wordsettings-addWord-btn'>+</div>
                         </div>
                     </div>
                     <div className='current-words'>
                         <h2>Current Words</h2>
                         {wordDisplay}
+                    </div>
                         <div className='wordsettings-close-btn-container'>
-                        </div>
                             <div 
                                 className='wordsettings-close-btn'
                                 onClick={ ()=>this.toggleWordSettings() }>
                                 Close
                             </div>
+                        </div>
                     </div>
-                </div>
             </div>
         )
     }

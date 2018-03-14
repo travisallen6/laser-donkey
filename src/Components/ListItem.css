@@ -21,9 +21,13 @@
 .crud-title{
     width: 80px;
     text-align: left;
+    display:flex;
+    align-items:center;
 }
 
 .crud-edit{
+    display:flex;
+    align-items: center;
     background-color:blue;
 }
 
